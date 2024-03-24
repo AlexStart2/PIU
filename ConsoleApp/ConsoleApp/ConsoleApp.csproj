@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassMaterii.cs" />
-    <Compile Include="Materie.cs" />
+    <Compile Include="GroupCourses.cs" />
+    <Compile Include="Course.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Question.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
