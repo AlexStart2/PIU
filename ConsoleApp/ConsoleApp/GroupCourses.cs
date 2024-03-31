@@ -14,7 +14,7 @@ namespace ConsoleApp
         private int nrCourse = 0;
         private string fileName = ConfigurationManager.AppSettings.Get("NumeFisier");
 
-        public int getNrCourse {  get { return nrCourse; } }
+        public int getNrCourse {  get; }
         public List<Course> getCourses { get { return courses; } }
 
         public GroupCourses()
@@ -49,10 +49,9 @@ namespace ConsoleApp
             courses.RemoveAt(--index);
         }
 
-        public List<Course> findByName()
+        public List<Course> findByName(string name)
         {
             List<Course> found = new List<Course>();
-            string name = Console.ReadLine();
             foreach(Course materie in courses)
             {
                 if(materie.getName.ToLower().Contains(name.ToLower()))
@@ -102,6 +101,24 @@ namespace ConsoleApp
                 sb.AppendLine((i+1)+".\t"+courses[i].getName);
             }
             return sb.ToString();
+        }
+
+        public void addQuestionToCourse(int index, string _question, string[] _wrongAnswers, string _correctAnswer, int _difficultyLevel)
+        {
+            if (index > courses.Count || index <= 0)
+            {
+                throw new Exception("Invalid index");
+            }
+            courses[--index].addQuestion(_question, _wrongAnswers, _correctAnswer, _difficultyLevel);
+        }
+
+        public List<Question> getQuestions(int index)
+        {
+            if (index > courses.Count || index <= 0)
+            {
+                throw new Exception("Invalid index");
+            }
+            return courses[--index].getExam;
         }
     }
 }
