@@ -15,7 +15,7 @@ namespace ConsoleApp
         Master = 4,
         Expert = 5
     }
-    internal class Question
+    public class Question
     {
         private string question;
         private string[] wrongAnswers;

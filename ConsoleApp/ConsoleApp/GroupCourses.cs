@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
-    internal class GroupCourses
+    public class GroupCourses
     {
         private List<Course> courses = new List<Course>();
         private int nrCourse = 0;
-        private string fileName = ConfigurationManager.AppSettings.Get("NumeFisier");
+        private readonly string fileName = ConfigurationManager.AppSettings.Get("NumeFisier");
 
         public int getNrCourse {  get; }
         public List<Course> getCourses { get { return courses; } }

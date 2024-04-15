@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
-    internal class Course
+    public class Course
     {
         private string name;
         private List<Question> exam = new List<Question>();
@@ -14,7 +14,7 @@ namespace ConsoleApp
         public string getName { get { return name; } }
         public int getNrQuestions {  get { return nrQuestions; } }
 
-        public List<Question> getExam { get { return exam; } }
+        List<Question> getExam { get { return exam; } }
         public void setName(string _name)
         {
             if(_name.Trim().Equals("") || string.IsNullOrEmpty(_name))
