@@ -14,7 +14,7 @@ namespace ConsoleApp
         private int nrCourse = 0;
         private readonly string fileName = ConfigurationManager.AppSettings.Get("NumeFisier");
 
-        public int getNrCourse {  get; }
+        public int getNrCourse { get { return nrCourse; } }
         public List<Course> getCourses { get { return courses; } }
 
         public GroupCourses()
@@ -24,11 +24,11 @@ namespace ConsoleApp
         }
 
         public Course GetCourse(int index) {
-            if(index <= 0 || index > courses.Count)
+            if(index < 0 || index > courses.Count)
             {
                 throw new Exception("Invalid index");
             }
-            return courses[--index]; 
+            return courses[index]; 
         }
 
         public void addCourse(string name)
@@ -38,15 +38,14 @@ namespace ConsoleApp
             nrCourse++;
         }
 
-        public void removeCourse()
+        public void removeCourse(int index)
         {
-            int index = Convert.ToInt32(Console.ReadLine());
-            if (index > courses.Count || index <= 0)
+            if (index > courses.Count || index < 0)
             {
                 throw new Exception("Invalid index");
             }
             nrCourse--;
-            courses.RemoveAt(--index);
+            courses.RemoveAt(index);
         }
 
         public List<Course> findByName(string name)

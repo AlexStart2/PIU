@@ -14,7 +14,7 @@ namespace ConsoleApp
         public string getName { get { return name; } }
         public int getNrQuestions {  get { return nrQuestions; } }
 
-        List<Question> getExam { get { return exam; } }
+        public List<Question> getExam { get { return exam; } }
         public void setName(string _name)
         {
             if(_name.Trim().Equals("") || string.IsNullOrEmpty(_name))

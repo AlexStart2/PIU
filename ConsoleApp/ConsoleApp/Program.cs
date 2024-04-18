@@ -42,7 +42,7 @@ namespace ConsoleApp
                         break;
                     case "C": // Sterge un curs
                         Console.Write("Introduceti ce curs doriti sa eliminati: ");
-                        test.removeCourse();
+                        test.removeCourse(0);
                         Console.WriteLine("Cursul a fost sters");
                         break;
                     case "U": // Schimba denumirea cursului
