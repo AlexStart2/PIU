@@ -23,6 +23,11 @@ namespace ConsoleApp
             streamFisierText.Close();
         }
 
+        public GroupCourses(List<Course> list)
+        {
+            courses = list;
+        }
+
         public Course GetCourse(int index) {
             if(index < 0 || index > courses.Count)
             {
@@ -53,7 +58,7 @@ namespace ConsoleApp
             List<Course> found = new List<Course>();
             foreach(Course materie in courses)
             {
-                if(materie.getName.ToLower().Contains(name.ToLower()))
+                if(materie.getName.ToLower().Contains(name.ToLower().Trim()))
                 {
                     found.Add(materie);
                 }
