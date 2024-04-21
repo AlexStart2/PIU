@@ -44,6 +44,7 @@ namespace WindowsFormsApp1
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
+            this.Text = "Menu";
             DisplayCoursesButton.PerformClick();
         }
     }

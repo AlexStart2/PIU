@@ -26,7 +26,7 @@ namespace WindowsFormsApp1
         {
             get
             {
-                btnDisplayCourses = MenuButton.NewButton("Afiseaza materii", 10, 10);
+                btnDisplayCourses = MenuButton.NewButton("Afiseaza materii");
                 btnDisplayCourses.Click += (object sender, EventArgs e) => {
                     SearchCourse.searchText = "";
                     MainMenu.displayedCourses = MainMenu.groupCourses.getCourses;
@@ -87,6 +87,12 @@ namespace WindowsFormsApp1
                 }
             };
 
+            btnCourse[currentIndex].Click += (object sender, EventArgs e) =>
+            {
+                form.Hide();
+                new CourseForm(a, form).Show();
+            };
+
             form.Controls.Add(btnDeleteCourse[currentIndex]);
 
             form.Controls.Add(btnCourse[currentIndex]);
@@ -94,7 +100,6 @@ namespace WindowsFormsApp1
 
         public static void CourseList()
         {
-
             DeleteCourseList();
             for (int i = 0; i < MainMenu.displayedCourses.Count; i++)
             {

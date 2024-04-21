@@ -25,7 +25,7 @@ namespace WindowsFormsApp1
 
         public SearchCourse()
         {
-            btnSearchCourse = new Button
+            btnSearchCourse = new Button  //// de pus cu MainButton cu mai multi parametri si de selectat manual fontul
             {
                 Text = "Cauta",
                 BackColor = Color.LightBlue,

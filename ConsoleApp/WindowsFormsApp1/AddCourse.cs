@@ -14,7 +14,7 @@ namespace WindowsFormsApp1
         static TextBox txtCourseName;
 
         static public Button getButton { get {
-                btnAddCourse = MenuButton.NewButton("Adauga materie", 10, 90);
+                btnAddCourse = MenuButton.NewButton("Adauga materie");
                 btnAddCourse.Click += AddCourseEvent;
                 return btnAddCourse; 
             } }
@@ -32,7 +32,8 @@ namespace WindowsFormsApp1
             {
                 Text = "Add Course",
                 Location = new Point(20, 50),
-                Size = new Size(100, 30)
+                Size = new Size(100, 30),
+                Cursor = Cursors.Hand
             };
             btnAddNewCourse.Click += btnFormAddCourse;
 
