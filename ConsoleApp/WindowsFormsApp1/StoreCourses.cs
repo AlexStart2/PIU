@@ -15,7 +15,7 @@ namespace WindowsFormsApp1
         {
             get
             {
-                btnStoreCourses = MenuButton.NewButton("Salveaza materiile", 10, 170);
+                btnStoreCourses = MenuButton.NewButton("Salveaza materiile");
                 btnStoreCourses.Click += (object sender, EventArgs e) =>
                 {
                     MainMenu.groupCourses.writeDataInFile();

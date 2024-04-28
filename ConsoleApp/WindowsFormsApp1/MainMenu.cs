@@ -19,22 +19,26 @@ namespace WindowsFormsApp1
 
         public static GroupCourses groupCourses = new GroupCourses();
         public static List<Course> displayedCourses = new List<Course>();
+        internal static DisplayItems displayCourses = new DisplayItems(new Form());
+        internal static Search MainSearch = new Search(new Course());
 
         public MainMenu()
         {
-            new SearchCourse();
+
             groupCourses.readDataFromFile();
             displayedCourses = groupCourses.getCourses;
+            displayCourses = new DisplayItems(this);
 
             InitializeComponent();
             this.Size = new System.Drawing.Size(900, 600);
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            DisplayCoursesButton = DisplayCourses.getButton;
+            
+            DisplayCoursesButton = displayCourses.getCoursesButton;
             AddCourseButton = AddCourse.getButton;
             StoreCoursesButton = StoreCourses.getButton;
-            SearchCoursesButton = SearchCourse.getButton;
-            SearchBar = SearchCourse.getSearchBar;
+            SearchCoursesButton = MainSearch.getButton;
+            SearchBar = MainSearch.getSearchBar;
 
             this.Controls.Add(SearchBar);
 
@@ -44,7 +48,7 @@ namespace WindowsFormsApp1
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
-            this.Text = "Menu";
+            this.Text = " - Meniu Principal";
             DisplayCoursesButton.PerformClick();
         }
     }

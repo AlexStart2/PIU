@@ -13,25 +13,43 @@ namespace WindowsFormsApp1
 {
     public partial class CourseForm : Form
     {
-        private Course course = new Course();
+        static public Course course = new Course();
         private readonly Form main = new Form();
 
         private Button Exam = new Button();
         private Button EditName = new Button();
+        private Button DeleteQuestion = new Button();
+        private Button SaveQuestion = new Button();
+        private Button AddQuestion = new Button();
+        private Button SearchQuestionButton = new Button();
+        private TextBox SearchQuestionBar = new TextBox();
 
-        public CourseForm(Course course, Form main)
+        internal static Search CourseSearch = new Search(new Question());
+        internal static DisplayItems displayQuestion = new DisplayItems(new Form());
+        public static List<Question> displayedQuestions = new List<Question>();
+
+        public CourseForm(Course _course, Form _main)
         {
+            displayQuestion = new DisplayItems(this);
+
             MenuButton.nrButton = 0;
 
-            EditName = MenuButton.NewButton("Editează numele cursului",10,10);
             Exam = MenuButton.NewButton("Raspunde la intrebari");
+            AddQuestion = MenuButton.NewButton("Adauga intrebare");
+            DeleteQuestion = MenuButton.NewButton("Sterge intrebare");
+            SaveQuestion = MenuButton.NewButton("Salveaza modificari");
+            EditName = MenuButton.NewButton("Editează numele cursului");
 
-            this.course = course;
-            this.main = main;
+            SearchQuestionButton = CourseSearch.getButton;
+            SearchQuestionBar = CourseSearch.getSearchBar;
+
+
+            course = _course;
+            this.main = _main;
             InitializeComponent();
 
-            this.Size = new System.Drawing.Size(900, 600);
-            this.StartPosition = FormStartPosition.CenterScreen;
+            Size = new System.Drawing.Size(900, 600);
+            StartPosition = FormStartPosition.CenterScreen;
 
             EditName.Click += (object sender, EventArgs e) =>
             {
@@ -49,13 +67,21 @@ namespace WindowsFormsApp1
                     Cursor = Cursors.Hand
                 };
 
-                btnEditCourseName.Click += (object send, EventArgs ev) =>
-                {
-
-                };
-
                 TextBox text = new TextBox();
                 text.Text = course.getName;
+
+                btnEditCourseName.Click += (object send, EventArgs ev) =>
+                {
+                    if(Validations.LengthStringValidation(text.Text).Length != 0)
+                    {
+
+                    }
+                    course.setName = text.Text;
+                    editName.Close();
+                };
+
+
+                editName.StartPosition = FormStartPosition.CenterScreen;
 
                 editName.Controls.Add(btnEditCourseName);
                 editName.Controls.Add(text);
@@ -63,18 +89,21 @@ namespace WindowsFormsApp1
                 editName.ShowDialog();
             };
 
-            this.Controls.AddRange(new Button[] { Exam, EditName });
+            this.Controls.Add(SearchQuestionBar);
+
+            this.Controls.AddRange(new Button[] { Exam, EditName, AddQuestion, DeleteQuestion, SaveQuestion, SearchQuestionButton });
         }
 
 
         private void CourseForm_Load(object sender, EventArgs e)
         {
-            this.Text = course.getName;
+            Text = course.getName;
+            //DisplayItems.getQuestionsButton.PerformClick();
 
-            this.FormClosed += (object send, FormClosedEventArgs ev) => 
+            this.FormClosed += (object send, FormClosedEventArgs ev) =>
             {
-                this.Hide();
                 main.Show();
+                this.Hide();
             };
         }
     }

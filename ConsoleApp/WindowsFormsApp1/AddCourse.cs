@@ -51,6 +51,8 @@ namespace WindowsFormsApp1
                     ev.SuppressKeyPress = true;
                 }
             };
+            addCourseForm.StartPosition = FormStartPosition.CenterScreen;
+
             addCourseForm.Controls.Add(txtCourseName);
 
             addCourseForm.Controls.Add(btnAddNewCourse);
@@ -63,7 +65,7 @@ namespace WindowsFormsApp1
 
             string courseName = txtCourseName.Text.Trim();
 
-            if (!Validations.LengthStringValidation(courseName))
+            if (Validations.LengthStringValidation(courseName).Length != 0)
             {
                 txtCourseName.BackColor = Color.MistyRose;
                 return;
@@ -74,8 +76,8 @@ namespace WindowsFormsApp1
                 MainMenu.groupCourses.addCourse(courseName);
                 addCourseForm.Close();
                 MainMenu.displayedCourses = MainMenu.groupCourses.getCourses;
-                SearchCourse.searchText = "";
-                DisplayCourses.CourseList();
+                MainMenu.MainSearch.searchText = "";
+                MainMenu.displayCourses.CourseList();
             }
             else
             {

@@ -10,6 +10,8 @@ namespace ConsoleApp
 {
     public class GroupCourses
     {
+        private const string SeparatorCursuri = "$end$";
+        private const char SeparatorRaspunsuri = ';';
         private List<Course> courses = new List<Course>();
         private int nrCourse = 0;
         private readonly string fileName = ConfigurationManager.AppSettings.Get("NumeFisier");
@@ -39,7 +41,7 @@ namespace ConsoleApp
         public void addCourse(string name)
         {
             courses.Add(new Course());
-            courses[nrCourse].setName(name);
+            courses[nrCourse].setName =name;
             nrCourse++;
         }
 
@@ -69,40 +71,66 @@ namespace ConsoleApp
         public void updateCourse(int index, string name)
         {
             Course toUpdate = GetCourse(index);
-            toUpdate.setName(name);
+            toUpdate.setName = name;
         }
 
         public void writeDataInFile()
         {
             using (StreamWriter streamWriter = new StreamWriter(fileName,false))
             {
-                streamWriter.Write(ConvertToSaveDateInFile());
+                streamWriter.Write(ConvertToSaveDataInFile());
             }
         }
 
-        public void readDataFromFile() // trebuie de facut sa nu se dubleze datele
-                                       // (de luat si indexul de comparat cu ce exista si de suprascris dupa caz)
+        public void readDataFromFile()
         {
-            using (StreamReader streamReader = new StreamReader(fileName))
+            using(StreamReader streamReader = new StreamReader(fileName))
             {
-                string lineFile;
-
-                while ((lineFile = streamReader.ReadLine()) != null)
+                string line;
+                while ((line = streamReader.ReadLine()) != null)
                 {
-                    string[] course = lineFile.Split('.');
                     courses.Add(new Course());
-                    courses[nrCourse].setName(course[1].Trim());
+                    courses[nrCourse].setName = line.Split('.')[1].Trim();
+
+                    while ((line = streamReader.ReadLine()) != SeparatorCursuri && line != null)
+                    {
+                        string question = line;
+                        string correctAnswer = streamReader.ReadLine();
+                        int difficultyLevel = int.Parse(streamReader.ReadLine());
+                        string[] wrongAnswers = streamReader.ReadLine().Split(SeparatorRaspunsuri);
+                        courses[nrCourse].addQuestion(question, wrongAnswers, correctAnswer, difficultyLevel);
+                    }
                     nrCourse++;
                 }
             }
+
         }
 
-        string ConvertToSaveDateInFile()
+        string ConvertToSaveDataInFile()
         {
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < courses.Count; i++)
             {
                 sb.AppendLine((i+1)+".\t"+courses[i].getName);
+                for(int j = 0; j < courses[i].getNrQuestions; j++)
+                {
+                    sb.AppendLine(courses[i].getQuestions[j].getQuestion);
+                    sb.AppendLine(courses[i].getQuestions[j].getCorrectAnswer);
+                    sb.AppendLine(courses[i].getQuestions[j].getDiffLevel().ToString());
+
+                    string wrongAnswers = "";
+                    foreach (string answer in courses[i].getQuestions[j].getWrongAnswers)
+                    {
+                        if(answer.Contains(SeparatorRaspunsuri))
+                        {
+                            answer.Replace(SeparatorRaspunsuri, '@');
+                        }
+                        wrongAnswers += answer + SeparatorRaspunsuri;
+                    }
+                    wrongAnswers = wrongAnswers.Remove(wrongAnswers.Length - 1);
+                    sb.AppendLine(wrongAnswers);
+                }
+                sb.AppendLine(SeparatorCursuri);
             }
             return sb.ToString();
         }
@@ -122,7 +150,7 @@ namespace ConsoleApp
             {
                 throw new Exception("Invalid index");
             }
-            return courses[--index].getExam;
+            return courses[--index].getQuestions;
         }
     }
 }

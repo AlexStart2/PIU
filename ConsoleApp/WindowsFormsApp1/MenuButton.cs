@@ -14,26 +14,30 @@ namespace WindowsFormsApp1
 
         static public int nrButton { get; set; }
 
-        static public Button NewButton(string text, int x = 0, int y = 0, int width = Width, int height = Height)
+        static public Button NewButton(string text, int x = -1, int y = -1, int width = Width, int height = Height, string Font = "Arial", float textSize = 12f, bool nextBtn = true)
         {
             int xCoord = MarginLeft;
             int yCoord = MarginTop*nrButton + 10;
 
-            if (x != 0)
+            if (x != -1)
             {
                 xCoord = x;
             }
-            if (y != 0)
+            if (y != -1)
             {
                 yCoord = y;
             }
-            ++nrButton;
+            if(nextBtn)
+            {
+                ++nrButton;
+            }
+            
             return new Button()
             {
                 Text = text,
                 BackColor = Color.LightBlue,
                 ForeColor = Color.Black,
-                Font = new Font("Arial", 12, FontStyle.Bold),
+                Font = new Font(Font, textSize, FontStyle.Bold),
                 FlatStyle = FlatStyle.Flat,
                 Size = new Size(width, height),
                 Location = new Point(xCoord, yCoord),

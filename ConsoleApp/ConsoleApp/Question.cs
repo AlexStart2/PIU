@@ -24,10 +24,12 @@ namespace ConsoleApp
 
         public string getQuestion { get { return question; } }
         public string getCorrectAnswer { get { return correctAnswer; } }
-        
+
+        public string[] getWrongAnswers { get { return wrongAnswers; } }
+
         public object getDiffLevel()
         {
-            return diffLevel;
+            return (int)diffLevel;
         }
 
         public List<string> getPossibleAnswers { get {
@@ -60,9 +62,6 @@ namespace ConsoleApp
             }
             diffLevel = (difficultyLevel)_difficultyLevel;
             question = _question.Trim();
-
-            Console.WriteLine(question);
-            Console.ReadKey();
         }
 
         public void setWrongAnswers(string[] _wrongAnswers)
