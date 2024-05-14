@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace ConsoleApp
 {
-    enum difficultyLevel
+    public enum difficultyLevel
     {
         Easy = 1,
         Normal = 2,
@@ -24,7 +24,7 @@ namespace ConsoleApp
 
         public string getQuestion { get { return question; } }
         public string getCorrectAnswer { get { return correctAnswer; } }
-
+        public difficultyLevel getDifficultyLevel { get { return diffLevel; } }
         public string[] getWrongAnswers { get { return wrongAnswers; } }
 
         public object getDiffLevel()
@@ -68,11 +68,11 @@ namespace ConsoleApp
         {
             if(_wrongAnswers.Length <= 1)
             {
-                throw new Exception("Must be at least 2 possible questions");
+                throw new Exception("Must be at least 2 possible answers");
             }
             foreach (string _answer in _wrongAnswers)
             {
-                if(string.IsNullOrEmpty(_answer) || _answer.Trim().Equals(""))
+                if (string.IsNullOrEmpty(_answer) || _answer.Trim().Equals(""))
                 {
                     throw new Exception("Answer should not be empty");
                 }
@@ -84,7 +84,7 @@ namespace ConsoleApp
         {
             if (_answer.Trim().Equals("") || _answer.Equals(null))
             {
-                throw new Exception("Question should not be empty");
+                throw new Exception("Answer should not be empty");
             }
             correctAnswer = _answer.Trim();
         }

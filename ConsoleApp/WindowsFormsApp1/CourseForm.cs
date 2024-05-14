@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,104 +8,92 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ConsoleApp;
 
 namespace WindowsFormsApp1
 {
+    
     public partial class CourseForm : Form
     {
-        static public Course course = new Course();
-        private readonly Form main = new Form();
+        Course course;
+        static MainMenu mainForm;
 
-        private Button Exam = new Button();
-        private Button EditName = new Button();
-        private Button DeleteQuestion = new Button();
-        private Button SaveQuestion = new Button();
-        private Button AddQuestion = new Button();
-        private Button SearchQuestionButton = new Button();
-        private TextBox SearchQuestionBar = new TextBox();
+        const string colQuestion = "getQuestion";
+        const string coldiffLevel = "getDifficultyLevel";
 
-        internal static Search CourseSearch = new Search(new Question());
-        internal static DisplayItems displayQuestion = new DisplayItems(new Form());
-        public static List<Question> displayedQuestions = new List<Question>();
-
-        public CourseForm(Course _course, Form _main)
+        public CourseForm(Course course, MainMenu mainForm)
         {
-            displayQuestion = new DisplayItems(this);
-
-            MenuButton.nrButton = 0;
-
-            Exam = MenuButton.NewButton("Raspunde la intrebari");
-            AddQuestion = MenuButton.NewButton("Adauga intrebare");
-            DeleteQuestion = MenuButton.NewButton("Sterge intrebare");
-            SaveQuestion = MenuButton.NewButton("Salveaza modificari");
-            EditName = MenuButton.NewButton("Editează numele cursului");
-
-            SearchQuestionButton = CourseSearch.getButton;
-            SearchQuestionBar = CourseSearch.getSearchBar;
-
-
-            course = _course;
-            this.main = _main;
             InitializeComponent();
-
-            Size = new System.Drawing.Size(900, 600);
-            StartPosition = FormStartPosition.CenterScreen;
-
-            EditName.Click += (object sender, EventArgs e) =>
+            this.course = course;
+            if(mainForm != null)
             {
-                Form editName = new Form 
-                {
-                    Text = "Schimba numele", // Set the title of the form
-                    Size = new Size(300, 150) // Set the size of the form
-                };
-
-                Button btnEditCourseName = new Button
-                {
-                    Text = "Schimba",
-                    Location = new Point(20, 50),
-                    Size = new Size(100, 30),
-                    Cursor = Cursors.Hand
-                };
-
-                TextBox text = new TextBox();
-                text.Text = course.getName;
-
-                btnEditCourseName.Click += (object send, EventArgs ev) =>
-                {
-                    if(Validations.LengthStringValidation(text.Text).Length != 0)
-                    {
-
-                    }
-                    course.setName = text.Text;
-                    editName.Close();
-                };
-
-
-                editName.StartPosition = FormStartPosition.CenterScreen;
-
-                editName.Controls.Add(btnEditCourseName);
-                editName.Controls.Add(text);
-
-                editName.ShowDialog();
-            };
-
-            this.Controls.Add(SearchQuestionBar);
-
-            this.Controls.AddRange(new Button[] { Exam, EditName, AddQuestion, DeleteQuestion, SaveQuestion, SearchQuestionButton });
+                CourseForm.mainForm = mainForm;
+            }
+            this.Text = course.Name;
+            this.Size = new Size(MainMenu.WIDTH, MainMenu.HEIGHT);
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
-
-        private void CourseForm_Load(object sender, EventArgs e)
+        private void Course_Load(object sender, EventArgs e)
         {
-            Text = course.getName;
-            //DisplayItems.getQuestionsButton.PerformClick();
+            this.FormClosed += (s, args) => { mainForm.Show(); };
+            dataGridViewQuestions.DataSource = course.getQuestions;
+        }
 
-            this.FormClosed += (object send, FormClosedEventArgs ev) =>
+        private void DeleteQuestion_Click(object sender, EventArgs e)
+        {
+            switch (dataGridViewQuestions.SelectedRows.Count)
             {
-                main.Show();
-                this.Hide();
-            };
+                case 1:
+                    string selected = dataGridViewQuestions.SelectedRows[0].Cells[0].Value.ToString();
+
+                    course.removeQuestion(course.getQuestions.FindIndex(q => q.getQuestion == selected));
+                    dataGridViewQuestions.DataSource = null;
+                    dataGridViewQuestions.DataSource = course.getQuestions;
+                    break;
+                case 0:
+                    MessageBox.Show(MainMenu.SELECT_ROW, MainMenu.infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                default:
+                    MessageBox.Show(MainMenu.SELECT_ONE_ROW, MainMenu.infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+            }
+        }
+
+        private void SaveCourse_Click(object sender, EventArgs e)
+        {
+            mainForm.groupCourses.writeDataInFile();
+            MessageBox.Show(MainMenu.SAVE_SUCCESS, MainMenu.infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void displayQuestions_Click(object sender, EventArgs e)
+        {
+            dataGridViewQuestions.DataSource = null;
+            dataGridViewQuestions.DataSource = course.getQuestions;
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            if(SearchBar.Text == "")
+            {
+                displayQuestions_Click(sender, e);
+                return;
+            }
+
+            dataGridViewQuestions.DataSource = null;
+            dataGridViewQuestions.DataSource = course.findQuestions(SearchBar.Text);
+        }
+
+        private void SearchBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                SearchButton_Click(sender, e);
+            }
+        }
+
+        private void AddQuestion_Click(object sender, EventArgs e)
+        {
+            new AddQuestionForm(course).ShowDialog();
         }
     }
 }

@@ -10,23 +10,21 @@ namespace WindowsFormsApp1
     {
         private const int MAX_LENGTH = 50;
         private const int MIN_LENGTH = 2;
-        private const string EMPTY_STRING = "";
         private const string TOO_LONG = "Campul trebuie sa contina maxim 50 de caractere";
         private const string TOO_SHORT = "Campul trebuie sa contina minim 2 caractere";
 
 
-        static public string LengthStringValidation(string str)
+        static public void LengthStringValidation(string str)
         {
             str = str.Trim();
             if (str.Length >= MAX_LENGTH)
             {
-                return TOO_LONG;
+                throw new Exception(TOO_LONG);
             }
             if(str.Length < MIN_LENGTH)
             {
-                return TOO_SHORT;
+                throw new Exception(TOO_SHORT);
             }
-            return EMPTY_STRING;
         }
     }
 }

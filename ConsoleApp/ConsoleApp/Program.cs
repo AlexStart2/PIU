@@ -60,7 +60,7 @@ namespace ConsoleApp
                         break;
                     case "I": // Gaseste un curs dupa index
                         Console.Write("Introduceti indexul cursului cautat: ");
-                        Console.WriteLine(test.GetCourse(Convert.ToInt32(Console.ReadLine())).getName);
+                        Console.WriteLine(test.GetCourse(Convert.ToInt32(Console.ReadLine())).Name);
                         break;
                     case "W": // scriere date in fisier
                         test.writeDataInFile();
@@ -140,7 +140,7 @@ namespace ConsoleApp
             foreach (Course materie in a)
             {
                 count++;
-                Console.WriteLine(count + ". " + materie.getName);
+                Console.WriteLine(count + ". " + materie.Name);
             }
         }
 
