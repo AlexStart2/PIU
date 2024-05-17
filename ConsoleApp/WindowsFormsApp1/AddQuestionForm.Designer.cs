@@ -34,20 +34,21 @@
             this.lblWrongAnswers = new System.Windows.Forms.Label();
             this.lblDiffLevel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.SearchBar = new System.Windows.Forms.TextBox();
+            this.QuestionBox = new System.Windows.Forms.TextBox();
             this.rdBtnEasy = new System.Windows.Forms.RadioButton();
             this.rdBtnNormal = new System.Windows.Forms.RadioButton();
             this.rdBtnHard = new System.Windows.Forms.RadioButton();
             this.rdBtnMaster = new System.Windows.Forms.RadioButton();
             this.rdBtnExpert = new System.Windows.Forms.RadioButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.CorrectAnswerBox = new System.Windows.Forms.TextBox();
+            this.WrongAnswerBox = new System.Windows.Forms.TextBox();
             this.AddWrongAnswer = new System.Windows.Forms.Button();
             this.AddNewQuestion = new System.Windows.Forms.Button();
             this.AddImage = new System.Windows.Forms.Button();
-            this.imagePreview = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.imagePreview)).BeginInit();
+            this.WrongAnswerList = new System.Windows.Forms.ListBox();
+            this.DeleteWrongAnswer = new System.Windows.Forms.Button();
+            this.ImageName = new System.Windows.Forms.Label();
+            this.DeleteImage = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblQuestion
@@ -89,19 +90,19 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(396, 76);
+            this.label1.Location = new System.Drawing.Point(365, 76);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 16);
             this.label1.TabIndex = 4;
             this.label1.Text = "Imagine (optional) :";
             // 
-            // SearchBar
+            // QuestionBox
             // 
-            this.SearchBar.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SearchBar.Location = new System.Drawing.Point(190, 31);
-            this.SearchBar.Name = "SearchBar";
-            this.SearchBar.Size = new System.Drawing.Size(519, 27);
-            this.SearchBar.TabIndex = 14;
+            this.QuestionBox.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.QuestionBox.Location = new System.Drawing.Point(190, 31);
+            this.QuestionBox.Name = "QuestionBox";
+            this.QuestionBox.Size = new System.Drawing.Size(519, 27);
+            this.QuestionBox.TabIndex = 14;
             // 
             // rdBtnEasy
             // 
@@ -158,43 +159,37 @@
             this.rdBtnExpert.Text = "Expert";
             this.rdBtnExpert.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // CorrectAnswerBox
             // 
-            this.textBox1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(190, 228);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(519, 27);
-            this.textBox1.TabIndex = 20;
+            this.CorrectAnswerBox.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CorrectAnswerBox.Location = new System.Drawing.Point(190, 228);
+            this.CorrectAnswerBox.Name = "CorrectAnswerBox";
+            this.CorrectAnswerBox.Size = new System.Drawing.Size(519, 27);
+            this.CorrectAnswerBox.TabIndex = 20;
             // 
-            // textBox2
+            // WrongAnswerBox
             // 
-            this.textBox2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(190, 273);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(481, 27);
-            this.textBox2.TabIndex = 21;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(190, 318);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(481, 27);
-            this.textBox3.TabIndex = 22;
+            this.WrongAnswerBox.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WrongAnswerBox.Location = new System.Drawing.Point(190, 273);
+            this.WrongAnswerBox.Name = "WrongAnswerBox";
+            this.WrongAnswerBox.Size = new System.Drawing.Size(519, 27);
+            this.WrongAnswerBox.TabIndex = 21;
+            this.WrongAnswerBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WrongAnswerBox_KeyDown);
             // 
             // AddWrongAnswer
             // 
             this.AddWrongAnswer.BackColor = System.Drawing.Color.White;
             this.AddWrongAnswer.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AddWrongAnswer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AddWrongAnswer.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddWrongAnswer.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.AddWrongAnswer.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.AddWrongAnswer.Location = new System.Drawing.Point(677, 273);
+            this.AddWrongAnswer.Location = new System.Drawing.Point(715, 268);
             this.AddWrongAnswer.Name = "AddWrongAnswer";
-            this.AddWrongAnswer.Size = new System.Drawing.Size(32, 27);
+            this.AddWrongAnswer.Size = new System.Drawing.Size(33, 36);
             this.AddWrongAnswer.TabIndex = 24;
             this.AddWrongAnswer.Text = "+";
             this.AddWrongAnswer.UseVisualStyleBackColor = false;
+            this.AddWrongAnswer.Click += new System.EventHandler(this.AddWrongAnswer_Click);
             // 
             // AddNewQuestion
             // 
@@ -203,12 +198,13 @@
             this.AddNewQuestion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddNewQuestion.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddNewQuestion.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.AddNewQuestion.Location = new System.Drawing.Point(37, 367);
+            this.AddNewQuestion.Location = new System.Drawing.Point(37, 383);
             this.AddNewQuestion.Name = "AddNewQuestion";
             this.AddNewQuestion.Size = new System.Drawing.Size(116, 34);
             this.AddNewQuestion.TabIndex = 25;
             this.AddNewQuestion.Text = "Adauga";
             this.AddNewQuestion.UseVisualStyleBackColor = false;
+            this.AddNewQuestion.Click += new System.EventHandler(this.AddNewQuestion_Click);
             // 
             // AddImage
             // 
@@ -217,41 +213,82 @@
             this.AddImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddImage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddImage.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.AddImage.Location = new System.Drawing.Point(522, 70);
+            this.AddImage.Location = new System.Drawing.Point(491, 65);
             this.AddImage.Name = "AddImage";
-            this.AddImage.Size = new System.Drawing.Size(107, 27);
+            this.AddImage.Size = new System.Drawing.Size(107, 37);
             this.AddImage.TabIndex = 26;
             this.AddImage.Text = "Selecteaza";
             this.AddImage.UseVisualStyleBackColor = false;
             this.AddImage.Click += new System.EventHandler(this.AddImage_Click);
             // 
-            // imagePreview
+            // WrongAnswerList
             // 
-            this.imagePreview.Location = new System.Drawing.Point(522, 103);
-            this.imagePreview.Name = "imagePreview";
-            this.imagePreview.Size = new System.Drawing.Size(107, 50);
-            this.imagePreview.TabIndex = 27;
-            this.imagePreview.TabStop = false;
+            this.WrongAnswerList.FormattingEnabled = true;
+            this.WrongAnswerList.ItemHeight = 16;
+            this.WrongAnswerList.Location = new System.Drawing.Point(190, 333);
+            this.WrongAnswerList.Name = "WrongAnswerList";
+            this.WrongAnswerList.Size = new System.Drawing.Size(519, 84);
+            this.WrongAnswerList.TabIndex = 28;
+            // 
+            // DeleteWrongAnswer
+            // 
+            this.DeleteWrongAnswer.BackColor = System.Drawing.Color.White;
+            this.DeleteWrongAnswer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DeleteWrongAnswer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DeleteWrongAnswer.Font = new System.Drawing.Font("Calibri", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DeleteWrongAnswer.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.DeleteWrongAnswer.Location = new System.Drawing.Point(715, 381);
+            this.DeleteWrongAnswer.Name = "DeleteWrongAnswer";
+            this.DeleteWrongAnswer.Size = new System.Drawing.Size(33, 36);
+            this.DeleteWrongAnswer.TabIndex = 29;
+            this.DeleteWrongAnswer.Text = "-";
+            this.DeleteWrongAnswer.UseVisualStyleBackColor = false;
+            this.DeleteWrongAnswer.Click += new System.EventHandler(this.DeleteWrongAnswer_Click);
+            // 
+            // ImageName
+            // 
+            this.ImageName.AutoSize = true;
+            this.ImageName.Location = new System.Drawing.Point(488, 107);
+            this.ImageName.Name = "ImageName";
+            this.ImageName.Size = new System.Drawing.Size(0, 16);
+            this.ImageName.TabIndex = 30;
+            // 
+            // DeleteImage
+            // 
+            this.DeleteImage.BackColor = System.Drawing.Color.White;
+            this.DeleteImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DeleteImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DeleteImage.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9F);
+            this.DeleteImage.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.DeleteImage.Location = new System.Drawing.Point(610, 65);
+            this.DeleteImage.Name = "DeleteImage";
+            this.DeleteImage.Size = new System.Drawing.Size(99, 37);
+            this.DeleteImage.TabIndex = 31;
+            this.DeleteImage.Text = "Sterge";
+            this.DeleteImage.UseVisualStyleBackColor = false;
+            this.DeleteImage.Click += new System.EventHandler(this.DeleteImage_Click);
             // 
             // AddQuestionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(214)))), ((int)(((byte)(252)))));
-            this.ClientSize = new System.Drawing.Size(790, 425);
-            this.Controls.Add(this.imagePreview);
+            this.ClientSize = new System.Drawing.Size(796, 502);
+            this.Controls.Add(this.DeleteImage);
+            this.Controls.Add(this.ImageName);
+            this.Controls.Add(this.DeleteWrongAnswer);
+            this.Controls.Add(this.WrongAnswerList);
             this.Controls.Add(this.AddImage);
             this.Controls.Add(this.AddNewQuestion);
             this.Controls.Add(this.AddWrongAnswer);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.WrongAnswerBox);
+            this.Controls.Add(this.CorrectAnswerBox);
             this.Controls.Add(this.rdBtnExpert);
             this.Controls.Add(this.rdBtnMaster);
             this.Controls.Add(this.rdBtnHard);
             this.Controls.Add(this.rdBtnNormal);
             this.Controls.Add(this.rdBtnEasy);
-            this.Controls.Add(this.SearchBar);
+            this.Controls.Add(this.QuestionBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblDiffLevel);
             this.Controls.Add(this.lblWrongAnswers);
@@ -261,7 +298,6 @@
             this.Name = "AddQuestionForm";
             this.Text = "AddQuestionForm";
             this.Load += new System.EventHandler(this.AddQuestionForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.imagePreview)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -274,18 +310,20 @@
         private System.Windows.Forms.Label lblWrongAnswers;
         private System.Windows.Forms.Label lblDiffLevel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox SearchBar;
+        private System.Windows.Forms.TextBox QuestionBox;
         private System.Windows.Forms.RadioButton rdBtnEasy;
         private System.Windows.Forms.RadioButton rdBtnNormal;
         private System.Windows.Forms.RadioButton rdBtnHard;
         private System.Windows.Forms.RadioButton rdBtnMaster;
         private System.Windows.Forms.RadioButton rdBtnExpert;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox CorrectAnswerBox;
+        private System.Windows.Forms.TextBox WrongAnswerBox;
         private System.Windows.Forms.Button AddWrongAnswer;
         private System.Windows.Forms.Button AddNewQuestion;
         private System.Windows.Forms.Button AddImage;
-        private System.Windows.Forms.PictureBox imagePreview;
+        private System.Windows.Forms.ListBox WrongAnswerList;
+        private System.Windows.Forms.Button DeleteWrongAnswer;
+        private System.Windows.Forms.Label ImageName;
+        private System.Windows.Forms.Button DeleteImage;
     }
 }

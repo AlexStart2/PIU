@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,12 +24,16 @@ namespace ConsoleApp
             } 
         }
 
-        public void addQuestion(string _question, string[] _wrongAnswers, string _correctAnswer, int _difficultyLevel)
+        public void addQuestion(string _question, string[] _wrongAnswers, string _correctAnswer, int _difficultyLevel, string _imagePath = "")
         {
             exam.Add(new Question());
             exam[nrQuestions].setQuestion(_question,_difficultyLevel);
             exam[nrQuestions].setWrongAnswers(_wrongAnswers);
             exam[nrQuestions].setAnswer(_correctAnswer);
+            if(_imagePath != "")
+            {
+                exam[nrQuestions].ImagePath = _imagePath;
+            }
             nrQuestions++;
         }
 
@@ -45,12 +50,17 @@ namespace ConsoleApp
                 throw new Exception("Invalid index");
             }
             nrQuestions--;
+
+            if (exam[index].ImagePath != "" && exam[index].ImagePath != "Images/" && exam[index].ImagePath!=null)
+            {
+                System.IO.File.Delete(exam[index].ImagePath);
+            }
             exam.RemoveAt(index);
         }
 
 
         public void editQuestion(int index, string _question, string[] _wrongAnswers, 
-            string _correctAnswer, int _difficultyLevel)
+            string _correctAnswer, int _difficultyLevel, string ImagePath)
         {
             if (index > exam.Count || index < 0)
             {
@@ -59,6 +69,7 @@ namespace ConsoleApp
             exam[index].setQuestion(_question, _difficultyLevel);
             exam[index].setWrongAnswers(_wrongAnswers);
             exam[index].setAnswer(_correctAnswer);
+            exam[index].ImagePath = ImagePath;
         }
 
         public List<Question> findQuestions(string _question)
@@ -73,7 +84,5 @@ namespace ConsoleApp
             }
             return found;
         }
-
-        
     }
 }

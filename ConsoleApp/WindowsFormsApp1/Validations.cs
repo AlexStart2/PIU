@@ -14,14 +14,14 @@ namespace WindowsFormsApp1
         private const string TOO_SHORT = "Campul trebuie sa contina minim 2 caractere";
 
 
-        static public void LengthStringValidation(string str)
+        static public void LengthStringValidation(string str, int minLength = MIN_LENGTH, int maxLength = MAX_LENGTH)
         {
             str = str.Trim();
-            if (str.Length >= MAX_LENGTH)
+            if (str.Length >= maxLength)
             {
                 throw new Exception(TOO_LONG);
             }
-            if(str.Length < MIN_LENGTH)
+            if(str.Length < minLength)
             {
                 throw new Exception(TOO_SHORT);
             }

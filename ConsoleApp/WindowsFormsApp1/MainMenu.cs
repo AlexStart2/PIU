@@ -29,6 +29,17 @@ namespace WindowsFormsApp1
 
 
 
+        public static Label newErrorLbl()
+        {
+            Label lbl = new Label
+            {
+                Text = "",
+                AutoSize = true,
+                ForeColor = Color.Red
+            };
+            return lbl;
+        }
+
         public GroupCourses groupCourses = new GroupCourses();
 
         public MainMenu()
@@ -41,14 +52,12 @@ namespace WindowsFormsApp1
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
-            dataGridViewCourses.DataSource = groupCourses.getCourses;
+            displayCourses_Click(sender, e);
         }
 
         private void displayCourses_Click(object sender, EventArgs e)
         {
-            dataGridViewCourses.DataSource = null;
-            dataGridViewCourses.DataSource = groupCourses.getCourses;
-            dataGridViewCourses_setHeader();
+            displayDataGridCourses(groupCourses.getCourses);
         }
 
         private void AdaugaCurs_Click(object sender, EventArgs e)
@@ -74,6 +83,7 @@ namespace WindowsFormsApp1
                 if (ev.KeyCode == Keys.Enter)
                 {
                     button.PerformClick();
+                    ev.SuppressKeyPress = true;
                 }
             };
 
@@ -83,19 +93,15 @@ namespace WindowsFormsApp1
                 {
                     Validations.LengthStringValidation(textBox.Text);
                     groupCourses.addCourse(textBox.Text);
-                    dataGridViewCourses.DataSource = null;
-                    dataGridViewCourses.DataSource = groupCourses.getCourses;
+                    displayDataGridCourses(groupCourses.getCourses);
                     form.Close();
-
-                    dataGridViewCourses_setHeader();
-
                 }
                 catch(Exception ex)
                 {
                     Label label = new Label();
                     label.Text = ex.Message;
                     label.Location = new Point(30, 40);
-                    label.Size = new Size(240, 20);
+                    label.AutoSize = true;
                     label.ForeColor = Color.Red;
                     form.Controls.Add(label);
                 }
@@ -110,19 +116,36 @@ namespace WindowsFormsApp1
         private void SaveCourses_Click(object sender, EventArgs e)
         {
             groupCourses.writeDataInFile();
+            saveMessage(this);
+        }
 
-            MessageBox.Show(SAVE_SUCCESS, "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        static public void saveMessage(Form window)
+        {
+            Label lbl = new Label
+            {
+                Text = SAVE_SUCCESS,
+                AutoSize = true,
+                ForeColor = Color.Green,
+                Location = new Point(10, window.Height - 60)
+            };
+            window.Controls.Add(lbl);
+            Timer timer = new Timer();
+            timer.Interval = 2000;
+            timer.Tick += (object send, EventArgs ev) =>
+            {
+                lbl.Dispose();
+                timer.Stop();
+            };
+            timer.Start();
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
             if(SearchBar.Text == "")
             {
-                return;
+                displayDataGridCourses(groupCourses.getCourses);
             }
-            dataGridViewCourses.DataSource = null;
-            dataGridViewCourses.DataSource = groupCourses.findByName(SearchBar.Text);
-            dataGridViewCourses_setHeader();
+            displayDataGridCourses(groupCourses.findByName(SearchBar.Text));
         }
 
 
@@ -131,6 +154,7 @@ namespace WindowsFormsApp1
             if (e.KeyCode == Keys.Enter)
             {
                 SearchButton_Click(sender, e);
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -141,10 +165,7 @@ namespace WindowsFormsApp1
                 case 1:
                     string selected = dataGridViewCourses.SelectedRows[0].Cells[0].Value.ToString();
                     groupCourses.removeCourse(groupCourses.getCourses.FindIndex(x => x.Name == selected));
-
-                    dataGridViewCourses.DataSource = null;
-                    dataGridViewCourses.DataSource = groupCourses.getCourses;
-                    dataGridViewCourses_setHeader();
+                    displayDataGridCourses(groupCourses.getCourses);
                     break;
                 case 0:
                     MessageBox.Show(SELECT_ROW, infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -158,40 +179,60 @@ namespace WindowsFormsApp1
 
         private void CourseDetails_Click(object sender, EventArgs e)
         {
-            if(dataGridViewCourses.SelectedCells.Count == 0)
+            try
             {
-                MessageBox.Show(SELECT_COURSE, infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                if (dataGridViewCourses.SelectedCells.Count == 0)
+                {
+                    MessageBox.Show(SELECT_COURSE, infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                if (dataGridViewCourses.SelectedCells[0].ColumnIndex != 0)
+                {
+                    MessageBox.Show(SELECT_COURSE, infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                switch (dataGridViewCourses.SelectedCells.Count)
+                {
+                    case 1:
+                        string selected = dataGridViewCourses.SelectedCells[0].Value.ToString();
+
+                        Course course = groupCourses.getCourses.Find(x => x.Name == selected);
+                        if (course == null)
+                        {
+                            MessageBox.Show(COURSE_NOT_FOUND, ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        new CourseForm(course, this).Show();
+                        this.Hide();
+                        break;
+                    case 0:
+                        MessageBox.Show(SELECT_ROW, ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    default:
+                        MessageBox.Show(SELECT_ONE_ROW, ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                }
             }
-
-            switch(dataGridViewCourses.SelectedCells.Count)
+            catch (Exception ex)
             {
-                case 1:
-                    string selected = dataGridViewCourses.SelectedCells[0].Value.ToString();
-
-                    Course course = groupCourses.getCourses.Find(x => x.Name == selected);
-                    if(course == null)
-                    {
-                        MessageBox.Show(COURSE_NOT_FOUND, ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    new CourseForm(course, this).Show();
-                    this.Hide();
-                    break;
-                case 0:
-                    MessageBox.Show(SELECT_ROW, ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
-                default:
-                    MessageBox.Show(SELECT_ONE_ROW, ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    break;
+                MessageBox.Show(ex.Message, ERROR, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void dataGridViewCourses_setHeader()
+        private void displayDataGridCourses( List<Course> courses)
         {
-            dataGridViewCourses.Columns[colName].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCourses.Columns[colName].HeaderText = "Nume curs";
-            dataGridViewCourses.Columns[colNrQuestions].HeaderText = "Nr. intrebari";
+            BindingSource Source = new BindingSource();
+
+            Source.DataSource = courses;
+            dataGridViewCourses.DataSource = null;
+            dataGridViewCourses.DataSource = Source;
+        }
+
+        private void dataGridViewCourses_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            CourseDetails_Click(sender, e);
         }
     }
 }

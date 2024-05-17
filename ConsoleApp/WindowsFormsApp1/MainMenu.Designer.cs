@@ -35,18 +35,16 @@
             this.SaveCourses = new System.Windows.Forms.Button();
             this.SearchBar = new System.Windows.Forms.TextBox();
             this.SearchButton = new System.Windows.Forms.Button();
-            this.dataGridViewCourses = new System.Windows.Forms.DataGridView();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nrQuestionsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.getCoursesBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.groupCoursesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.DeleteCourse = new System.Windows.Forms.Button();
             this.CourseDetails = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourses)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.getCoursesBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupCoursesBindingSource)).BeginInit();
+            this.dataGridViewCourses = new System.Windows.Forms.DataGridView();
+            this.courseBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nrQuestionsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourses)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.courseBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // displayCourses
@@ -118,52 +116,6 @@
             this.SearchButton.UseVisualStyleBackColor = false;
             this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
-            // dataGridViewCourses
-            // 
-            this.dataGridViewCourses.AllowUserToAddRows = false;
-            this.dataGridViewCourses.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(214)))), ((int)(((byte)(252)))));
-            this.dataGridViewCourses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCourses.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nameDataGridViewTextBoxColumn,
-            this.nrQuestionsDataGridViewTextBoxColumn});
-            this.dataGridViewCourses.Location = new System.Drawing.Point(176, 80);
-            this.dataGridViewCourses.Name = "dataGridViewCourses";
-            this.dataGridViewCourses.RowHeadersWidth = 51;
-            this.dataGridViewCourses.RowTemplate.Height = 24;
-            this.dataGridViewCourses.Size = new System.Drawing.Size(714, 383);
-            this.dataGridViewCourses.TabIndex = 5;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.FillWeight = 162.1785F;
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Nume curs";
-            this.nameDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nameDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // nrQuestionsDataGridViewTextBoxColumn
-            // 
-            this.nrQuestionsDataGridViewTextBoxColumn.DataPropertyName = "NrQuestions";
-            this.nrQuestionsDataGridViewTextBoxColumn.FillWeight = 37.82148F;
-            this.nrQuestionsDataGridViewTextBoxColumn.HeaderText = "Nr. intrebari";
-            this.nrQuestionsDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.nrQuestionsDataGridViewTextBoxColumn.Name = "nrQuestionsDataGridViewTextBoxColumn";
-            this.nrQuestionsDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nrQuestionsDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.nrQuestionsDataGridViewTextBoxColumn.Width = 125;
-            // 
-            // getCoursesBindingSource
-            // 
-            this.getCoursesBindingSource.DataMember = "getCourses";
-            this.getCoursesBindingSource.DataSource = this.groupCoursesBindingSource;
-            // 
-            // groupCoursesBindingSource
-            // 
-            this.groupCoursesBindingSource.DataSource = typeof(ConsoleApp.GroupCourses);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
@@ -205,16 +157,59 @@
             this.CourseDetails.UseVisualStyleBackColor = false;
             this.CourseDetails.Click += new System.EventHandler(this.CourseDetails_Click);
             // 
+            // dataGridViewCourses
+            // 
+            this.dataGridViewCourses.AllowUserToAddRows = false;
+            this.dataGridViewCourses.AllowUserToDeleteRows = false;
+            this.dataGridViewCourses.AutoGenerateColumns = false;
+            this.dataGridViewCourses.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(214)))), ((int)(((byte)(252)))));
+            this.dataGridViewCourses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCourses.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nameDataGridViewTextBoxColumn,
+            this.nrQuestionsDataGridViewTextBoxColumn});
+            this.dataGridViewCourses.DataSource = this.courseBindingSource;
+            this.dataGridViewCourses.Location = new System.Drawing.Point(177, 77);
+            this.dataGridViewCourses.Name = "dataGridViewCourses";
+            this.dataGridViewCourses.RowHeadersWidth = 51;
+            this.dataGridViewCourses.RowTemplate.Height = 24;
+            this.dataGridViewCourses.Size = new System.Drawing.Size(713, 377);
+            this.dataGridViewCourses.TabIndex = 10;
+            this.dataGridViewCourses.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCourses_CellDoubleClick);
+            // 
+            // courseBindingSource
+            // 
+            this.courseBindingSource.DataSource = typeof(ConsoleApp.Course);
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Nume curs";
+            this.nameDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nameDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // nrQuestionsDataGridViewTextBoxColumn
+            // 
+            this.nrQuestionsDataGridViewTextBoxColumn.DataPropertyName = "NrQuestions";
+            this.nrQuestionsDataGridViewTextBoxColumn.HeaderText = "Nr. intrebari";
+            this.nrQuestionsDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.nrQuestionsDataGridViewTextBoxColumn.Name = "nrQuestionsDataGridViewTextBoxColumn";
+            this.nrQuestionsDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nrQuestionsDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.nrQuestionsDataGridViewTextBoxColumn.Width = 125;
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(214)))), ((int)(((byte)(252)))));
             this.ClientSize = new System.Drawing.Size(902, 483);
+            this.Controls.Add(this.dataGridViewCourses);
             this.Controls.Add(this.CourseDetails);
             this.Controls.Add(this.DeleteCourse);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.dataGridViewCourses);
             this.Controls.Add(this.SearchButton);
             this.Controls.Add(this.SearchBar);
             this.Controls.Add(this.SaveCourses);
@@ -224,10 +219,9 @@
             this.Name = "MainMenu";
             this.Text = "MainMenu";
             this.Load += new System.EventHandler(this.MainMenu_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourses)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.getCoursesBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupCoursesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCourses)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.courseBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,14 +233,13 @@
         private System.Windows.Forms.Button AddCourse;
         private System.Windows.Forms.TextBox SearchBar;
         private System.Windows.Forms.Button SearchButton;
-        private System.Windows.Forms.DataGridView dataGridViewCourses;
-        private System.Windows.Forms.BindingSource groupCoursesBindingSource;
-        private System.Windows.Forms.BindingSource getCoursesBindingSource;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button DeleteCourse;
         private System.Windows.Forms.Button CourseDetails;
+        private System.Windows.Forms.Button SaveCourses;
+        private System.Windows.Forms.DataGridView dataGridViewCourses;
+        private System.Windows.Forms.BindingSource courseBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn nrQuestionsDataGridViewTextBoxColumn;
-        private System.Windows.Forms.Button SaveCourses;
     }
 }

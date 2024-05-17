@@ -36,19 +36,19 @@ namespace WindowsFormsApp1
         private void Course_Load(object sender, EventArgs e)
         {
             this.FormClosed += (s, args) => { mainForm.Show(); };
-            dataGridViewQuestions.DataSource = course.getQuestions;
+            dataGridView1.DataSource = course.getQuestions;
+
         }
 
         private void DeleteQuestion_Click(object sender, EventArgs e)
         {
-            switch (dataGridViewQuestions.SelectedRows.Count)
+            switch (dataGridView1.SelectedRows.Count)
             {
                 case 1:
-                    string selected = dataGridViewQuestions.SelectedRows[0].Cells[0].Value.ToString();
+                    string selected = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
 
                     course.removeQuestion(course.getQuestions.FindIndex(q => q.getQuestion == selected));
-                    dataGridViewQuestions.DataSource = null;
-                    dataGridViewQuestions.DataSource = course.getQuestions;
+                    displayDataGridCourse(course.getQuestions);
                     break;
                 case 0:
                     MessageBox.Show(MainMenu.SELECT_ROW, MainMenu.infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -59,28 +59,26 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void SaveCourse_Click(object sender, EventArgs e)
+        private void SaveCourse_Click()
         {
             mainForm.groupCourses.writeDataInFile();
-            MessageBox.Show(MainMenu.SAVE_SUCCESS, MainMenu.infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MainMenu.saveMessage(this);
         }
 
         private void displayQuestions_Click(object sender, EventArgs e)
         {
-            dataGridViewQuestions.DataSource = null;
-            dataGridViewQuestions.DataSource = course.getQuestions;
+            displayDataGridCourse(course.getQuestions);
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
             if(SearchBar.Text == "")
             {
-                displayQuestions_Click(sender, e);
+                displayDataGridCourse(course.getQuestions);
                 return;
             }
 
-            dataGridViewQuestions.DataSource = null;
-            dataGridViewQuestions.DataSource = course.findQuestions(SearchBar.Text);
+            displayDataGridCourse(course.findQuestions(SearchBar.Text));
         }
 
         private void SearchBar_KeyDown(object sender, KeyEventArgs e)
@@ -88,12 +86,96 @@ namespace WindowsFormsApp1
             if(e.KeyCode == Keys.Enter)
             {
                 SearchButton_Click(sender, e);
+                e.SuppressKeyPress = true;
             }
         }
 
         private void AddQuestion_Click(object sender, EventArgs e)
         {
-            new AddQuestionForm(course).ShowDialog();
+            try
+            {
+                new AddQuestionForm(course).ShowDialog();
+                displayDataGridCourse(course.getQuestions);
+                SaveCourse_Click();
+            }catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        private void takeTest_Click(object sender, EventArgs e)
+        {
+            if (course.getQuestions.Count == 0)
+            {
+                MessageBox.Show("Nu exista intrebari", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                new test(course).Show();
+            }
+        }
+
+        private void dataGridViewQuestions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            new AddQuestionForm(course, course.getQuestions[e.RowIndex]).ShowDialog();
+            SaveCourse_Click();
+            MainMenu.saveMessage(this);
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = course.getQuestions;
+        }
+
+
+        private void displayDataGridCourse(List<Question> questions)
+        {
+            BindingSource Source = new BindingSource();
+
+            Source.DataSource = questions;
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = Source;
+        }
+
+        private void EditCourseName_Click(object sender, EventArgs e)
+        {
+            Form form = new Form
+            {
+                StartPosition = FormStartPosition.CenterScreen,
+                Size = new Size(300, 150),
+                BackColor = Color.FromArgb(158, 214, 252),
+                Text = "Edit Course Name"
+            };
+            TextBox textBox = new TextBox
+            {
+                Text = course.Name,
+                Location = new Point(50, 20),
+                Size = new Size(200, 20)
+            };
+            form.Controls.Add(textBox);
+            Button button = new Button
+            {
+                Location = new Point(50, 50),
+                Size = new Size(100, 30),
+                Text = "Edit",
+                Cursor = Cursors.Hand
+            };
+
+            button.Click += (object send, EventArgs ev) =>
+            {
+                try
+                {
+                    Validations.LengthStringValidation(textBox.Text);
+                    course.setName = textBox.Text;
+                    this.Text = course.Name;
+                    form.Close();
+                    SaveCourse_Click();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            };
+            form.Controls.Add(button);
+            form.ShowDialog();
         }
     }
 }

@@ -53,6 +53,12 @@ namespace ConsoleApp
                 throw new Exception("Invalid index");
             }
             nrCourse--;
+
+            for(int i = 0; i<courses[index].getQuestions.Count; )
+            {
+                courses[index].removeQuestion(i);
+            }
+
             courses.RemoveAt(index);
         }
 
@@ -98,8 +104,17 @@ namespace ConsoleApp
                         string question = line;
                         string correctAnswer = streamReader.ReadLine();
                         int difficultyLevel = int.Parse(streamReader.ReadLine());
+
+                        // Image path if is not null
+
+                        string imagePath = streamReader.ReadLine();
+                        if(imagePath == "null")
+                        {
+                            imagePath = "";
+                        }
+
                         string[] wrongAnswers = streamReader.ReadLine().Split(SeparatorRaspunsuri);
-                        courses[nrCourse].addQuestion(question, wrongAnswers, correctAnswer, difficultyLevel);
+                        courses[nrCourse].addQuestion(question, wrongAnswers, correctAnswer, difficultyLevel, imagePath);
                     }
                     nrCourse++;
                 }
@@ -118,6 +133,15 @@ namespace ConsoleApp
                     sb.AppendLine(courses[i].getQuestions[j].getQuestion);
                     sb.AppendLine(courses[i].getQuestions[j].getCorrectAnswer);
                     sb.AppendLine(courses[i].getQuestions[j].getDiffLevel().ToString());
+
+                    if (courses[i].getQuestions[j].ImagePath != null)
+                    {
+                        sb.AppendLine(courses[i].getQuestions[j].ImagePath);
+                    }
+                    else
+                    {
+                        sb.AppendLine("null");
+                    }
 
                     string wrongAnswers = "";
                     foreach (string answer in courses[i].getQuestions[j].getWrongAnswers)

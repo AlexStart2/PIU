@@ -21,11 +21,20 @@ namespace ConsoleApp
         private string[] wrongAnswers;
         private string correctAnswer;
         private difficultyLevel diffLevel;
+        private string imagePath;
 
         public string getQuestion { get { return question; } }
         public string getCorrectAnswer { get { return correctAnswer; } }
         public difficultyLevel getDifficultyLevel { get { return diffLevel; } }
         public string[] getWrongAnswers { get { return wrongAnswers; } }
+
+        public string ImagePath { get { return imagePath; } set { 
+                if(value == null || value.Trim().Equals(""))
+                {
+                    throw new Exception("Image path should not be empty");
+                }
+                imagePath = value; 
+            } }
 
         public object getDiffLevel()
         {

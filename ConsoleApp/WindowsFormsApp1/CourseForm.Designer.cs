@@ -30,37 +30,37 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CourseForm));
-            this.SaveCourse = new System.Windows.Forms.Button();
+            this.EditCourseName = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.dataGridViewQuestions = new System.Windows.Forms.DataGridView();
             this.SearchButton = new System.Windows.Forms.Button();
             this.SearchBar = new System.Windows.Forms.TextBox();
             this.DeleteQuestion = new System.Windows.Forms.Button();
             this.AddQuestion = new System.Windows.Forms.Button();
             this.displayQuestions = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.getQuestionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.getDifficultyLevelDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.takeTest = new System.Windows.Forms.Button();
             this.questionBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.getDifficultyLevelDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.getQuestionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewQuestions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.questionBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // SaveCourse
+            // EditCourseName
             // 
-            this.SaveCourse.BackColor = System.Drawing.Color.White;
-            this.SaveCourse.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.SaveCourse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SaveCourse.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SaveCourse.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.SaveCourse.Location = new System.Drawing.Point(12, 275);
-            this.SaveCourse.Name = "SaveCourse";
-            this.SaveCourse.Size = new System.Drawing.Size(124, 59);
-            this.SaveCourse.TabIndex = 18;
-            this.SaveCourse.Text = "Salveaza";
-            this.SaveCourse.UseVisualStyleBackColor = false;
-            this.SaveCourse.Click += new System.EventHandler(this.SaveCourse_Click);
+            this.EditCourseName.BackColor = System.Drawing.Color.White;
+            this.EditCourseName.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.EditCourseName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.EditCourseName.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditCourseName.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.EditCourseName.Location = new System.Drawing.Point(12, 275);
+            this.EditCourseName.Name = "EditCourseName";
+            this.EditCourseName.Size = new System.Drawing.Size(124, 59);
+            this.EditCourseName.TabIndex = 18;
+            this.EditCourseName.Text = "Editeaza numele";
+            this.EditCourseName.UseVisualStyleBackColor = false;
+            this.EditCourseName.Click += new System.EventHandler(this.EditCourseName_Click);
             // 
             // pictureBox1
             // 
@@ -72,23 +72,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 16;
             this.pictureBox1.TabStop = false;
-            // 
-            // dataGridViewQuestions
-            // 
-            this.dataGridViewQuestions.AllowUserToAddRows = false;
-            this.dataGridViewQuestions.AutoGenerateColumns = false;
-            this.dataGridViewQuestions.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(214)))), ((int)(((byte)(252)))));
-            this.dataGridViewQuestions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewQuestions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.getQuestionDataGridViewTextBoxColumn,
-            this.getDifficultyLevelDataGridViewTextBoxColumn});
-            this.dataGridViewQuestions.DataSource = this.questionBindingSource;
-            this.dataGridViewQuestions.Location = new System.Drawing.Point(163, 80);
-            this.dataGridViewQuestions.Name = "dataGridViewQuestions";
-            this.dataGridViewQuestions.RowHeadersWidth = 51;
-            this.dataGridViewQuestions.RowTemplate.Height = 24;
-            this.dataGridViewQuestions.Size = new System.Drawing.Size(714, 383);
-            this.dataGridViewQuestions.TabIndex = 15;
             // 
             // SearchButton
             // 
@@ -159,28 +142,24 @@
             this.displayQuestions.UseVisualStyleBackColor = false;
             this.displayQuestions.Click += new System.EventHandler(this.displayQuestions_Click);
             // 
-            // button1
+            // takeTest
             // 
-            this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.button1.Location = new System.Drawing.Point(12, 80);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 59);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "Sustine testul";
-            this.button1.UseVisualStyleBackColor = false;
+            this.takeTest.BackColor = System.Drawing.Color.White;
+            this.takeTest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.takeTest.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.takeTest.Font = new System.Drawing.Font("Arial Rounded MT Bold", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.takeTest.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.takeTest.Location = new System.Drawing.Point(12, 80);
+            this.takeTest.Name = "takeTest";
+            this.takeTest.Size = new System.Drawing.Size(124, 59);
+            this.takeTest.TabIndex = 19;
+            this.takeTest.Text = "Sustine testul";
+            this.takeTest.UseVisualStyleBackColor = false;
+            this.takeTest.Click += new System.EventHandler(this.takeTest_Click);
             // 
-            // getQuestionDataGridViewTextBoxColumn
+            // questionBindingSource
             // 
-            this.getQuestionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.getQuestionDataGridViewTextBoxColumn.DataPropertyName = "getQuestion";
-            this.getQuestionDataGridViewTextBoxColumn.HeaderText = "Intrebare";
-            this.getQuestionDataGridViewTextBoxColumn.MinimumWidth = 6;
-            this.getQuestionDataGridViewTextBoxColumn.Name = "getQuestionDataGridViewTextBoxColumn";
-            this.getQuestionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.questionBindingSource.DataSource = typeof(ConsoleApp.Question);
             // 
             // getDifficultyLevelDataGridViewTextBoxColumn
             // 
@@ -191,32 +170,55 @@
             this.getDifficultyLevelDataGridViewTextBoxColumn.ReadOnly = true;
             this.getDifficultyLevelDataGridViewTextBoxColumn.Width = 125;
             // 
-            // questionBindingSource
+            // getQuestionDataGridViewTextBoxColumn
             // 
-            this.questionBindingSource.DataSource = typeof(ConsoleApp.Question);
+            this.getQuestionDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.getQuestionDataGridViewTextBoxColumn.DataPropertyName = "getQuestion";
+            this.getQuestionDataGridViewTextBoxColumn.HeaderText = "Intrebare";
+            this.getQuestionDataGridViewTextBoxColumn.MinimumWidth = 6;
+            this.getQuestionDataGridViewTextBoxColumn.Name = "getQuestionDataGridViewTextBoxColumn";
+            this.getQuestionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // CourseF
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(214)))), ((int)(((byte)(252)))));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.getQuestionDataGridViewTextBoxColumn,
+            this.getDifficultyLevelDataGridViewTextBoxColumn});
+            this.dataGridView1.DataSource = this.questionBindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(163, 80);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.Size = new System.Drawing.Size(714, 383);
+            this.dataGridView1.TabIndex = 15;
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewQuestions_CellDoubleClick);
+            // 
+            // CourseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(158)))), ((int)(((byte)(214)))), ((int)(((byte)(252)))));
             this.ClientSize = new System.Drawing.Size(909, 488);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.SaveCourse);
+            this.Controls.Add(this.takeTest);
+            this.Controls.Add(this.EditCourseName);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.dataGridViewQuestions);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.SearchButton);
             this.Controls.Add(this.SearchBar);
             this.Controls.Add(this.DeleteQuestion);
             this.Controls.Add(this.AddQuestion);
             this.Controls.Add(this.displayQuestions);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "CourseF";
+            this.Name = "CourseForm";
             this.Text = "Course";
             this.Load += new System.EventHandler(this.Course_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewQuestions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.questionBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,17 +226,17 @@
 
         #endregion
 
-        private System.Windows.Forms.Button SaveCourse;
+        private System.Windows.Forms.Button EditCourseName;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.DataGridView dataGridViewQuestions;
         private System.Windows.Forms.Button SearchButton;
         private System.Windows.Forms.TextBox SearchBar;
         private System.Windows.Forms.Button DeleteQuestion;
         private System.Windows.Forms.Button AddQuestion;
         private System.Windows.Forms.Button displayQuestions;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button takeTest;
         private System.Windows.Forms.BindingSource questionBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn getQuestionDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn getDifficultyLevelDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn getQuestionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
