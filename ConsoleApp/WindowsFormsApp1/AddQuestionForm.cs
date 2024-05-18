@@ -22,6 +22,7 @@ namespace WindowsFormsApp1
         public const string SELECT_OPTION = "Select an option";
         string selectedImagePath= "";
         private readonly Question question;
+        private CourseForm courseForm;
 
         Label Error_WrongAnswerList = MainMenu.newErrorLbl();
         Label Error_AddWrongAnswer = MainMenu.newErrorLbl();
@@ -29,13 +30,14 @@ namespace WindowsFormsApp1
         Label EmptyQuestion = MainMenu.newErrorLbl();
         Label EmptyAnswer = MainMenu.newErrorLbl();
 
-        public AddQuestionForm(Course course, Question question = null)
+        public AddQuestionForm(Course course, CourseForm CourseForm, Question question = null)
         {
             InitializeComponent();
             this.course = course;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Adauga intrebare";
             this.question = question;
+            this.courseForm = CourseForm;
             if (question != null)
             {
                 AddNewQuestion.Text = "Editeaza intrebarea";
@@ -82,7 +84,8 @@ namespace WindowsFormsApp1
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(MainMenu.ERROR + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(MainMenu.ERROR + ex.Message, "Error", MessageBoxButtons.OK, 
+                            MessageBoxIcon.Error);
                     }
                 }
             }
@@ -90,7 +93,6 @@ namespace WindowsFormsApp1
 
         private void AddImage_Click(object sender, EventArgs e)
         {
-            DeleteImage_Click(sender, e);
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
@@ -105,7 +107,8 @@ namespace WindowsFormsApp1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(MainMenu.ERROR + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(MainMenu.ERROR + ex.Message, "Error", MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
         }
@@ -115,7 +118,15 @@ namespace WindowsFormsApp1
             Error_AddWrongAnswer.Text = "";
             try
             {
-                Validations.LengthStringValidation(WrongAnswerBox.Text, 1, 255);
+                WrongAnswerBox.Text = WrongAnswerBox.Text.Trim();
+                if (WrongAnswerBox.Text.Length < 1)
+                {
+                    throw new Exception("Campul nu poate fi gol");
+                }
+                if (WrongAnswerBox.Text.Length >= MainMenu.MAX_LENGTH)
+                {
+                    throw new Exception("Campul poate contine maxim "+MainMenu.MAX_LENGTH+" de caractere");
+                }
                 WrongAnswerList.Items.Add(WrongAnswerBox.Text);
                 WrongAnswerBox.Text = "";
             }
@@ -203,7 +214,8 @@ namespace WindowsFormsApp1
 
                 if (nrWA < nrWrongAnswers)
                 {
-                    Error_WrongAnswerList.Text = "Intrebarea trebuie sa aiba cel putin " +nrWrongAnswers +" raspunsuri gresite";
+                    Error_WrongAnswerList.Text = "Intrebarea trebuie sa aiba cel putin " +nrWrongAnswers +
+                        " raspunsuri gresite";
                     Error_WrongAnswerList.Location = new Point(WrongAnswerList.Location.X, WrongAnswerList.Location.Y 
                         + WrongAnswerList.Height + marginErrorTop);
                     this.Controls.Add(Error_WrongAnswerList);
@@ -216,11 +228,12 @@ namespace WindowsFormsApp1
                 {
                     wrongAnswers[i] = WrongAnswerList.Items[i].ToString();
                 }
+                DeleteImage_Click(sender, e);
 
                 string ImgName="";
 
 
-                if (ImageName.Text != "")
+                if (ImageName.Text != "" && selectedImagePath != "")
                 {
                     string projectDirectory = Directory.GetCurrentDirectory()+"\\Images";
                     string targetImagePath = Path.Combine(projectDirectory, Path.GetFileName(selectedImagePath));
@@ -231,14 +244,23 @@ namespace WindowsFormsApp1
 
                 if(question != null)
                 {
+                    if (ImgName == "" && question.ImagePath != "" && question.ImagePath!= "Images/")
+                    {
+                        File.Delete(question.ImagePath);
+                    }
+
                     int index = course.getQuestions.FindIndex(q => q.getQuestion == question.getQuestion);
-                    course.editQuestion(index, QuestionBox.Text, wrongAnswers, CorrectAnswerBox.Text, (int)l, "Images/" + ImgName);
+                    course.editQuestion(index, QuestionBox.Text, wrongAnswers, CorrectAnswerBox.Text, (int)l,
+                        "Images/" + ImgName);
+                    courseForm.SaveCourse_Click();
                     this.Close();
                     return;
                 }
 
-                course.addQuestion(QuestionBox.Text, wrongAnswers, CorrectAnswerBox.Text, (int)l, "Images/" + ImgName);
+                course.addQuestion(QuestionBox.Text, wrongAnswers, CorrectAnswerBox.Text, (int)l, "Images/" 
+                    + ImgName);
 
+                courseForm.SaveCourse_Click();
                 this.Close();
 
             }
@@ -269,11 +291,17 @@ namespace WindowsFormsApp1
 
         private void DeleteImage_Click(object sender, EventArgs e)
         {
-            ImageName.Text = "";
             if(question != null && question.ImagePath != "" && question.ImagePath != "Images/")
             {
                 File.Delete(question.ImagePath);
+                courseForm.SaveCourse_Click();
             }
+        }
+
+        private void DeleteImageBtn_Click(object sender, EventArgs e)
+        {
+            selectedImagePath = "";
+            ImageName.Text = "";
         }
     }
 }

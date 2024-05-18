@@ -266,7 +266,7 @@
             this.DeleteImage.TabIndex = 31;
             this.DeleteImage.Text = "Sterge";
             this.DeleteImage.UseVisualStyleBackColor = false;
-            this.DeleteImage.Click += new System.EventHandler(this.DeleteImage_Click);
+            this.DeleteImage.Click += new System.EventHandler(this.DeleteImageBtn_Click);
             // 
             // AddQuestionForm
             // 

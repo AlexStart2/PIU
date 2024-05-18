@@ -14,20 +14,22 @@ namespace WindowsFormsApp1
 {
     public partial class MainMenu : Form
     {
-        public const string SELECT_ROW = "Selecteaza intreaga linie";
+        public static readonly Color BackGroundColor = Color.FromArgb(158, 214, 252);
+
+        public const string SELECT_ROW = "Selecteaza o linie";
         public const string SELECT_ONE_ROW = "Selecteaza un singur curs";
         public const string SELECT_COURSE = "Selecteaza un curs pentru a vedea detaliile";
         public const string SAVE_SUCCESS = "Datele au fost salvate";
         public const int WIDTH = 700;
         public const int HEIGHT = 450;
+        public const int MAX_LENGTH = 50;
+        public const int MIN_LENGTH = 2;
         public const string ERROR = "An error occurred: ";
-        
         public const string COURSE_NOT_FOUND = "Cursul nu a fost gasit";
         public const string colName = "Name";
         public const string colNrQuestions = "NrQuestions";
         public const string infoTxt = "Information";
-
-
+        
 
         public static Label newErrorLbl()
         {
@@ -62,21 +64,30 @@ namespace WindowsFormsApp1
 
         private void AdaugaCurs_Click(object sender, EventArgs e)
         {
-            Form form = new Form();
-            form.Text = "Adauga curs";
-            form.Size = new Size(300, 150);
-            form.StartPosition = FormStartPosition.CenterScreen;
+            Form form = new Form
+            {
+                Text = "Adauga curs",
+                Size = new Size(300, 150),
+                StartPosition = FormStartPosition.CenterScreen,
+                BackColor = BackGroundColor
+            };
 
-            TextBox textBox = new TextBox();
-            textBox.Location = new Point(30, 20);
-            textBox.Size = new Size(200, 20);
-            textBox.TabIndex = 0;
+            TextBox textBox = new TextBox
+            {
+                Location = new Point(30, 20),
+                Size = new Size(200, 20),
+                Font = new Font("Arial", 10)
+            };
 
-            Button button = new Button();
-            button.Location = new Point(30, 60);
-            button.Size = new Size(100, 30);
-            button.Text = "Adauga";
-            button.Cursor = Cursors.Hand;
+            Button button = new Button
+            {
+                Location = new Point(30, 60),
+                Size = new Size(100, 30),
+                Text = "Adauga",
+                Cursor = Cursors.Hand,
+                BackColor = Color.White,
+                FlatStyle = FlatStyle.Flat
+            };
 
             textBox.KeyDown += (object send, KeyEventArgs ev) =>
             {
@@ -89,20 +100,35 @@ namespace WindowsFormsApp1
 
             button.Click += (object send, EventArgs ev) =>
             {
+                Label label = new Label();
                 try
                 {
-                    Validations.LengthStringValidation(textBox.Text);
+                    if (label.Text != "")
+                    {
+                        label.Text = "";
+                    }
+                    textBox.Text = textBox.Text.Trim();
+                    if (textBox.Text.Length >= MAX_LENGTH)
+                    {
+                        throw new Exception("Campul trebuie sa contina maxim "+MAX_LENGTH+" de caractere");
+                    }
+                    if (textBox.Text.Length < MIN_LENGTH)
+                    {
+                        throw new Exception("Campul trebuie sa contina minim "+MIN_LENGTH+" caractere");
+                    }
                     groupCourses.addCourse(textBox.Text);
                     displayDataGridCourses(groupCourses.getCourses);
                     form.Close();
                 }
                 catch(Exception ex)
                 {
-                    Label label = new Label();
-                    label.Text = ex.Message;
-                    label.Location = new Point(30, 40);
-                    label.AutoSize = true;
-                    label.ForeColor = Color.Red;
+                    label = new Label
+                    {
+                        Text = ex.Message,
+                        Location = new Point(30, textBox.Location.Y +textBox.Height),
+                        AutoSize = true,
+                        ForeColor = Color.Red
+                    };
                     form.Controls.Add(label);
                 }
             };
@@ -141,7 +167,7 @@ namespace WindowsFormsApp1
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            if(SearchBar.Text == "")
+            if(SearchBar.Text.Trim() == "")
             {
                 displayDataGridCourses(groupCourses.getCourses);
             }

@@ -72,7 +72,6 @@
     <Compile Include="test.Designer.cs">
       <DependentUpon>test.cs</DependentUpon>
     </Compile>
-    <Compile Include="Validations.cs" />
     <EmbeddedResource Include="AddQuestionForm.resx">
       <DependentUpon>AddQuestionForm.cs</DependentUpon>
     </EmbeddedResource>

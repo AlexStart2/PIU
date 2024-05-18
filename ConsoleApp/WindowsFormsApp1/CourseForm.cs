@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -49,17 +50,20 @@ namespace WindowsFormsApp1
 
                     course.removeQuestion(course.getQuestions.FindIndex(q => q.getQuestion == selected));
                     displayDataGridCourse(course.getQuestions);
+                    SaveCourse_Click();
                     break;
                 case 0:
-                    MessageBox.Show(MainMenu.SELECT_ROW, MainMenu.infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(MainMenu.SELECT_ROW, MainMenu.infoTxt, MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information);
                     break;
                 default:
-                    MessageBox.Show(MainMenu.SELECT_ONE_ROW, MainMenu.infoTxt, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(MainMenu.SELECT_ONE_ROW, MainMenu.infoTxt, MessageBoxButtons.OK, 
+                        MessageBoxIcon.Information);
                     break;
             }
         }
 
-        private void SaveCourse_Click()
+        public void SaveCourse_Click()
         {
             mainForm.groupCourses.writeDataInFile();
             MainMenu.saveMessage(this);
@@ -94,7 +98,7 @@ namespace WindowsFormsApp1
         {
             try
             {
-                new AddQuestionForm(course).ShowDialog();
+                new AddQuestionForm(course, this).ShowDialog();
                 displayDataGridCourse(course.getQuestions);
                 SaveCourse_Click();
             }catch (Exception ex)
@@ -118,9 +122,8 @@ namespace WindowsFormsApp1
 
         private void dataGridViewQuestions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            new AddQuestionForm(course, course.getQuestions[e.RowIndex]).ShowDialog();
-            SaveCourse_Click();
-            MainMenu.saveMessage(this);
+            new AddQuestionForm(course, this, course.getQuestions[e.RowIndex]).ShowDialog();
+            
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = course.getQuestions;
         }
@@ -144,26 +147,42 @@ namespace WindowsFormsApp1
                 BackColor = Color.FromArgb(158, 214, 252),
                 Text = "Edit Course Name"
             };
+
+            const int m_left = 30;
+
             TextBox textBox = new TextBox
             {
                 Text = course.Name,
-                Location = new Point(50, 20),
-                Size = new Size(200, 20)
+                Location = new Point(m_left, 20),
+                Size = new Size(200, 20),
+                Font = new Font("Arial", 10)
             };
+
             form.Controls.Add(textBox);
             Button button = new Button
             {
-                Location = new Point(50, 50),
+                Location = new Point(m_left, 60),
                 Size = new Size(100, 30),
                 Text = "Edit",
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                BackColor = Color.White,
+                FlatStyle = FlatStyle.Flat
             };
 
             button.Click += (object send, EventArgs ev) =>
             {
+                System.Windows.Forms.Label label = new System.Windows.Forms.Label();
                 try
                 {
-                    Validations.LengthStringValidation(textBox.Text);
+                    if(textBox.Text.Trim().Length < MainMenu.MIN_LENGTH)
+                    {
+                        throw new Exception("Campul trebuie sa contina minim "+MainMenu.MIN_LENGTH+" caractere");
+                    }
+                    else if (textBox.Text.Trim().Length > MainMenu.MAX_LENGTH)
+                    {
+                        throw new Exception("Campul trebuie sa contina maxim "+MainMenu.MAX_LENGTH+" de caractere");
+                    }
+
                     course.setName = textBox.Text;
                     this.Text = course.Name;
                     form.Close();
@@ -171,7 +190,23 @@ namespace WindowsFormsApp1
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    label = new System.Windows.Forms.Label
+                    {
+                        Text = ex.Message,
+                        Location = new Point(m_left, textBox.Bottom),
+                        AutoSize = true,
+                        ForeColor = Color.Red
+                    };
+                    form.Controls.Add(label);
+                }
+            };
+
+            textBox.KeyDown += (object send, KeyEventArgs ev) =>
+            {
+                if (ev.KeyCode == Keys.Enter)
+                {
+                    button.PerformClick();
+                    ev.SuppressKeyPress = true;
                 }
             };
             form.Controls.Add(button);

@@ -43,7 +43,7 @@ namespace WindowsFormsApp1
             pictureBox.Size = new Size(0, 0);
             Label labelQuestion = new Label();
 
-            if (question.ImagePath != null)
+            if (question.ImagePath != null && question.ImagePath != "Images/" && question.ImagePath != "")
             {
 
                 try
@@ -71,7 +71,8 @@ namespace WindowsFormsApp1
                     }
                 catch (Exception e)
                 {
-                    MessageBox.Show("Imaginea nu a putut fi incarcata", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(e.Message, "Eroare", MessageBoxButtons.OK, 
+                        MessageBoxIcon.Error);
                 }
             }
 
@@ -81,45 +82,63 @@ namespace WindowsFormsApp1
             labelQuestion.Location = new Point(marginLeft, 50 + pictureBox.Height + 10);
             this.Controls.Add(labelQuestion);
 
+            Label difficulty = new Label
+            {
+                Text = "Nivel de dificultate: " + question.getDifficultyLevel,
+                AutoSize = true,
+                Location = new Point(marginLeft, labelQuestion.Location.Y + labelQuestion.Height + 20),
+                Font = new Font("Arial", QuestionSize)
+            };
+
+            this.Controls.Add(difficulty);
+
             List<string> answers = question.getPossibleAnswers;
 
             int nr = 0;
+            RadioButton radioButton = new RadioButton();
             foreach (string answer in answers)
             {
                 nr++;
-                RadioButton radioButton = new RadioButton();
+                radioButton = new RadioButton();
                 radioButton.Text = answer;
                 radioButton.Font = new Font("Arial", QuestionSize);
                 radioButton.AutoSize = true;
-                radioButton.Location = new Point(marginLeft, labelQuestion.Location.Y + labelQuestion.Height + 10 + 20*nr);
+                radioButton.Location = new Point(marginLeft, difficulty.Location.Y + 
+                    difficulty.Height + 18 * nr);
+                radioButton.Click += HideWarning;
                 this.Controls.Add(radioButton);
             }
 
             Button Submit = new Button
             {
-                Text = "Submit",
+                Text = "Next",
                 AutoSize = true,
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.White,
                 Cursor = Cursors.Hand
             };
 
-            Submit.Location = new Point(marginLeft, this.Height - 100);
+            Submit.Location = new Point(marginLeft, radioButton.Location.Y + 60);
             Submit.Click += Submit_Click;
 
             this.Controls.Add(Submit);
         }
 
+        private void HideWarning(object sender, EventArgs e)
+        {
+            selectAnswer.Text = "";
+        }
+
         private void test_Load(object sender, EventArgs e)
         {
-            // free all resources used by the image
             this.FormClosing += (object send, FormClosingEventArgs ev) =>
             {
-                if(pictureBox.Image != null)
+                Console.WriteLine(pictureBox.Image);
+                if (pictureBox.Image != null)
                 {
+                    Console.WriteLine("Dispose");
                     pictureBox.Image.Dispose();
                 }
-                
             };
         }
 
