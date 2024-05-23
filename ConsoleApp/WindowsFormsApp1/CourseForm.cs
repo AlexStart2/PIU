@@ -37,8 +37,7 @@ namespace WindowsFormsApp1
         private void Course_Load(object sender, EventArgs e)
         {
             this.FormClosed += (s, args) => { mainForm.Show(); };
-            dataGridView1.DataSource = course.getQuestions;
-
+            displayDataGridCourse(course.getQuestions);
         }
 
         private void DeleteQuestion_Click(object sender, EventArgs e)
@@ -123,9 +122,8 @@ namespace WindowsFormsApp1
         private void dataGridViewQuestions_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             new AddQuestionForm(course, this, course.getQuestions[e.RowIndex]).ShowDialog();
-            
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = course.getQuestions;
+
+            displayDataGridCourse(course.getQuestions);
         }
 
 

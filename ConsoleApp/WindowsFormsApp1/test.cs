@@ -13,7 +13,6 @@ namespace WindowsFormsApp1
 {
     public partial class test : Form
     {
-        //private Course course;
         List<Question> questions;
         const int marginLeft = 50;
         const int ImageWidth = 400;
@@ -133,10 +132,8 @@ namespace WindowsFormsApp1
         {
             this.FormClosing += (object send, FormClosingEventArgs ev) =>
             {
-                Console.WriteLine(pictureBox.Image);
                 if (pictureBox.Image != null)
                 {
-                    Console.WriteLine("Dispose");
                     pictureBox.Image.Dispose();
                 }
             };
